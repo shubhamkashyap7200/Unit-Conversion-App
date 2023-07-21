@@ -56,32 +56,36 @@ struct ContentView: View {
     }
     
     var body: some View {
-        Form {
-            // MARK: Input value
-            Section {
-                TextField("Enter Value", value: $inputTemperature, format: .number)
+        NavigationStack {
+            Form {
+                // MARK: Input value
+                Section {
+                    TextField("Enter Value", value: $inputTemperature, format: .number)
+                    
+                    Picker("Input unit", selection: $selectedInputUnit) {
+                        ForEach(units, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                } header: {
+                    Text("Input temperature value")
+                }
                 
-                Picker("Input unit", selection: $selectedInputUnit) {
-                    ForEach(units, id: \.self) {
-                        Text($0)
+                
+                // MARK: Out value
+                Section {
+                    Text("\(outputTemperature, specifier: "%.2f")")
+                    Picker("Output unit", selection: $selectedOutputUnit) {
+                        ForEach(units, id: \.self) {
+                            Text($0)
+                        }
                     }
+                } header: {
+                    Text("Output temperature value")
                 }
-            } header: {
-                Text("Input temperature value")
             }
-
             
-            // MARK: Out value
-            Section {
-                Text("\(outputTemperature, specifier: "%.2f")")
-                Picker("Output unit", selection: $selectedOutputUnit) {
-                    ForEach(units, id: \.self) {
-                        Text($0)
-                    }
-                }
-            } header: {
-                Text("Output temperature value")
-            }
+            .navigationTitle("Unit conversion")
         }
     }
 }
